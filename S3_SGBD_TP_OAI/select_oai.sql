@@ -35,6 +35,7 @@ SELECT * FROM emp WHERE ename LIKE '%S' OR ename LIKE '%R';
 -- 15 - Obtenir la liste de tous les "Salesman" et "Analyst"
 SELECT * FROM emp WHERE job IN ('SALESMAN', 'ANALYST');
 -- 16 - Obtenir la liste des employés qui ont un manager
-SELECT * FROM emp WHERE job NOT IN ('PRESIDENT', 'MANAGER');
+-- SELECT * FROM emp WHERE job NOT IN ('PRESIDENT', 'MANAGER');
+SELECT * FROM emp WHERE mgr IS NOT NULL;
 -- 17 - Obtenir la liste des employés qui ont un salaire annuel supérieur à 36000
 SELECT * FROM emp WHERE sal*12 >= 36000;
