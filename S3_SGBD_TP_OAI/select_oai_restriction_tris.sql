@@ -1,6 +1,10 @@
 /* Restrictions et tris */
 -- Q1 – Afficher le nom et le salaire des employés gagnant plus de 2850.
 SELECT ename, sal FROM emp WHERE sal > 2850;
+
+SELECT ENAME, SAL+ COALESCE(COMM, 0) 
+FROM EMP
+WHERE SAL+ COALESCE(COMM, 0)  > 2850;
 -- Q2 – Afficher le nom et le numéro de département de l’employé dont le matricule est 7566.
 SELECT ename, deptno FROM emp WHERE empno = 7566;
 -- Q3 – Afficher le nom et le salaire de tous les employés dont le salaire n’est pas compris entre 1500 et 2850.
