@@ -14,7 +14,7 @@ SELECT ename, job, hiredate FROM emp WHERE hiredate BETWEEN '1981-02-20' AND '19
 -- Q5 – Afficher le nom et le numéro de département de tous les employés des départements 10 et 30 classés par ordre alphabétique.
 SELECT ename, deptno FROM emp WHERE deptno = 10 OR deptno = 30 ORDER BY ename;
 -- Q6 – Afficher la liste des noms et salaires des employés gagnant plus de 1500 et travaillant dans le département 10 ou 30. Nommez les colonnes «Employé» et «Salaire mensuel».
-SELECT ename as "Employé", sal as "Salaire mensuel" FROM emp WHERE sal > 1500 AND deptno = 10 OR deptno = 30;
+SELECT ename as "Employé", sal as "Salaire mensuel" FROM emp WHERE sal > 1500 AND (deptno = 10 OR deptno = 30);
 -- Q7 – Afficher le nom et la date d’embauche de chaque employé entré en 1982.
 SELECT ename, hiredate FROM emp WHERE date_part('year', hiredate) = 1982;
 -- Q8 – Afficher le nom et le poste de tous les employés n’ayant pas de manager.
@@ -27,5 +27,5 @@ SELECT ename FROM emp WHERE upper(ename) LIKE '__A%';
 SELECT ename FROM emp WHERE upper(ename) LIKE '%L%L%'AND deptno = 30 OR empno = (SELECT empno FROM emp WHERE empno = 7782);
 -- Q12 – Afficher le nom, le poste et le salaire de tous les CLERK ou ANALYST dont le salaire est différent de 1000, 3000 ou 5000.
 SELECT ename, job, sal FROM emp WHERE upper(job) = 'CLERK' OR upper(job) = 'ANALYST' AND sal NOT IN ('1000', '3000', '5000');
--- Q13 – Afficher le nom, le salaire et la commission de tous les employés dont le montant de commission est  supérieur de plus de 10% au salaire.
+-- Q13 – Afficher le nom, le salaire et la commission de tous les employés dont le montant de commission est supérieur de plus de 10% au salaire.
 SELECT ename, sal, comm FROM emp WHERE comm > sal * 1.1;
