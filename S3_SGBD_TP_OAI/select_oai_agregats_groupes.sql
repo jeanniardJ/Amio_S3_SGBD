@@ -9,7 +9,7 @@ SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme
 SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", avg(sal) as "Moyenne" FROM emp WHERE lower(job) LIKE 'cler%';
 
 -- Q3 – Afficher le nombre de personnes qui occupent le même poste.
-SELECT count(*) FROM emp WHERE lower(job) LIKE 'mana%';
+SELECT count(*), job as "Job" FROM emp GROUP BY JOB;
 -- Q4  – Déterminez le nombre de personnes ayant des subordonnés, sans en donner la liste.
 
 -- Q5 – Afficher la différence entre le salaire maximum, et le salaire minimum. Nommez la colonne Différence.
