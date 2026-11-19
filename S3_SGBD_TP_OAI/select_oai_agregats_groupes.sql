@@ -11,7 +11,7 @@ SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme
 -- Q3 – Afficher le nombre de personnes qui occupent le même poste.
 SELECT count(*), job as "Job" FROM emp GROUP BY JOB;
 -- Q4  – Déterminez le nombre de personnes ayant des subordonnés, sans en donner la liste.
-
+SELECT count(mgr) FROM emp; 
 -- Q5 – Afficher la différence entre le salaire maximum, et le salaire minimum. Nommez la colonne Différence.
 
 -- Q6 – Ecrire cette requête par étape :
