@@ -3,11 +3,11 @@
 -- Q1 – Affichez le salaire maximum, le salaire minimum, la somme des salaires et le salaire moyen de tous les employés. Renommez les colonnes
 SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", avg(sal) as "Moyenne" FROM emp;
 -- Q2 – Modifiez la requête précédente, pour afficher les mêmes informations, mais pour chaque type de poste.
-SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", avg(sal) as "Moyenne" FROM emp WHERE lower(job) LIKE 'mana%';
-SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", avg(sal) as "Moyenne" FROM emp WHERE lower(job) LIKE 'sales%';
-SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", avg(sal) as "Moyenne" FROM emp WHERE lower(job) LIKE 'analy%';
-SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", avg(sal) as "Moyenne" FROM emp WHERE lower(job) LIKE 'cler%';
-SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", avg(sal) as "Moyenne", job as "Job" FROM emp GROUP BY job;
+SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", round(avg(sal),2) as "Moyenne" FROM emp WHERE lower(job) LIKE 'mana%';
+SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", round(avg(sal),2) as "Moyenne" FROM emp WHERE lower(job) LIKE 'sales%';
+SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", round(avg(sal),2) as "Moyenne" FROM emp WHERE lower(job) LIKE 'analy%';
+SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", round(avg(sal),2) as "Moyenne" FROM emp WHERE lower(job) LIKE 'cler%';
+SELECT max(sal) as "Salaire max", min(sal) as "Salaire min",  sum(sal) as "Somme de tout les salaire", round(avg(sal), 2) as "Moyenne", job as "Job" FROM emp GROUP BY job;
 -- Q3 – Afficher le nombre de personnes qui occupent le même poste.
 SELECT count(*), job as "Job" FROM emp GROUP BY JOB;
 -- Q4  – Déterminez le nombre de personnes ayant des subordonnés, sans en donner la liste.
@@ -28,6 +28,7 @@ SELECT d.dname as "Nom du dpt", d.loc as "Localisation", count(e) as "Nombre de 
 -- Q6 – Reprendre la question 6 pour afficher aussi le nom du manager
 SELECT e.mgr as "Matricule du chef de service", m.ename as "Nom du manager", min(e.sal) as "Salaire minimum" FROM emp e JOIN emp m ON e.mgr = m.empno WHERE e.mgr IS NOT NULL GROUP BY e.mgr, m.ename HAVING min(e.sal) >= 1000 ORDER BY min(e.sal) DESC;
 -- Q8 – Même requête en ne prenant en compte que les salariés qui ne sont pas PRESIDENT ou MANAGER.
+SELECT e.mgr as "Matricule du chef de service", m.ename as "Nom du manager", min(e.sal) as "Salaire minimum" FROM emp e JOIN emp m ON e.mgr = m.empno WHERE e.mgr IS NOT NULL AND e.job NOT IN ('PRESIDENT', 'MANAGER') GROUP BY e.mgr, m.ename HAVING min(e.sal) >= 1000 ORDER BY min(e.sal) DESC;
 
 -- Q9 – Pour chaque grade, afficher le salaire plancher, le salaire plafond, le nombre de salariés concernés et la moyenne des salaires du grade.
 SELECT s.grade as "Grade", s.losal as "Salaire min", s.hisal as "Salaire max", count(e) as "Nombre de personnes", avg(e.sal) as "Salaire moyen" FROM salgrade s JOIN emp e ON e.sal BETWEEN s.losal AND s.hisal GROUP BY s.grade;
