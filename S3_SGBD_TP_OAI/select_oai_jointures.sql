@@ -36,4 +36,4 @@ SELECT loc FROM emp e JOIN emp m ON e.mgr = m.empno JOIN dept d ON d.deptno = m.
 -- Q15 – Dans le département ‘ACCOUNTING’ qui a le salaire le plus faible
 SELECT e.ename FROM dept d JOIN emp e ON e.deptno = d.deptno and lower(dname) = 'accounting' ORDER BY sal LIMIT 1; 
 -- Q16 – Qui est le manager du manager de ‘FORD’
-SELECT mm.ename FROM emp e JOIN emp m ON e.mgr = m.empno JOIN emp mm ON m.mgr = mm.empno WHERE lower(e.ename) = 'ford'; 
+SELECT mm.ename FROM emp e JOIN emp m ON e.mgr = m.empno AND lower(e.ename) = 'ford' JOIN emp mm ON m.mgr = mm.empno; 
