@@ -34,5 +34,6 @@ SELECT * FROM emp ORDER BY sal DESC LIMIT 1;
 -- Q14 – Afficher la ville du département dans lequel travaille le manager de BLAKE
 SELECT loc FROM emp e JOIN emp m ON e.mgr = m.empno JOIN dept d ON d.deptno = m.deptno WHERE lower(e.ename) = 'blake';
 -- Q15 – Dans le département ‘ACCOUNTING’ qui a le salaire le plus faible
-SELECT * FROM dept d JOIN emp e ON e.deptno = d.deptno WHERE lower(dname) = 'accounting' ORDER BY sal LIMIT 1; 
+SELECT e.ename FROM dept d JOIN emp e ON e.deptno = d.deptno and lower(dname) = 'accounting' ORDER BY sal LIMIT 1; 
 -- Q16 – Qui est le manager du manager de ‘FORD’
+SELECT mm.ename FROM emp e JOIN emp m ON e.mgr = m.empno JOIN emp mm ON m.mgr = mm.empno WHERE lower(e.ename) = 'ford'; 
