@@ -21,9 +21,18 @@ SELECT e.ename, e.job, d.dname, e.sal, s.grade FROM emp e JOIN dept d ON e.deptn
 
 -- Q9 - Afficher le numéro de département et le nom de tous les employés qui travaillent dans le même département qu’un autre employé. 
 -- Donnez à chaque colonne un entête approprié «Numéro de département», «Nom employé», «Nom collègue».
-SELECT d.deptno as "Numéro de département", eF.ename as "Nom employé", eS.ename as "Nom collègue" FROM emp eF JOIN emp eS ON ef.deptno = eS.deptno JOIN dept d ON d.deptno = ef.deptno;
+SELECT d.deptno as "Numéro de département", eF.ename as "Nom employé", eS.ename as "Nom collègue" FROM emp eF JOIN emp eS ON ef.deptno = eS.deptno AND ef.empno <> eS.empno JOIN dept d ON d.deptno = ef.deptno;
 -- Q10 - Créez une requête destinée à afficher le nom, et la date d’embauche de tous les employés arrivés avant l’employé dont le nom est BLAKE. Trier les lignes sur la date d’embauche.
 SELECT e.ename, e.hiredate FROM emp e WHERE e.hiredate < (SELECT hiredate FROM emp WHERE lower(ename) = 'blake') ORDER BY hiredate;
 SELECT e.ename, e.hiredate FROM emp e JOIN emp s ON e.hiredate < s.hiredate WHERE lower(s.ename) = 'blake' ORDER BY e.hiredate;
 -- Q11 - Afficher le nom, la date d’embauche des employés et de leur manager, pour tous les employés ayant été embauchés avant leur manager. Renommez les colonnes pour les différencier.
 SELECT e.ename as "Employé", e.hiredate as "Date embauche", f.ename as "Manager", f.hiredate as "Date embauche" FROM emp e JOIN emp f ON e.mgr = f.empno WHERE e.hiredate < f.hiredate; 
+-- Q12 – Afficher la liste des départements qui ne comportent aucun employé.
+SELECT d.dname FROM dept d LEFT JOIN emp e ON d.deptno = e.deptno WHERE e.deptno IS NULL;
+-- Q13 – Afficher l’employé qui a le plus gros salaire
+SELECT * FROM emp ORDER BY sal DESC LIMIT 1;
+-- Q14 – Afficher la ville du département dans lequel travaille le manager de BLAKE
+SELECT loc FROM emp e JOIN emp m ON e.mgr = m.empno JOIN dept d ON d.deptno = m.deptno WHERE lower(e.ename) = 'blake';
+-- Q15 – Dans le département ‘ACCOUNTING’ qui a le salaire le plus faible
+SELECT * FROM dept d JOIN emp e ON e.deptno = d.deptno WHERE lower(dname) = 'accounting' ORDER BY sal LIMIT 1; 
+-- Q16 – Qui est le manager du manager de ‘FORD’
