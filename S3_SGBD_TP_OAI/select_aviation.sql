@@ -7,31 +7,35 @@ SELECT p.pilno, v.volarr FROM pilote p JOIN vol v ON p.pilno = v.pilno;
 -- Q3 Afficher les caractéristiques de tous les AIRBUS
 SELECT * FROM avion WHERE lower(avnom) LIKE 'airbus%';
 -- Q4 Afficher les noms des pilotes qui habitent PARIS (autre que JEAN)
-SELECT pilote.pilnom FROM pilote WHERE pilote.piladr = 'PARIS' AND pilote.pilnom != 'JEAN';
+SELECT pilno, pilote.pilnom FROM pilote WHERE pilote.piladr = 'PARIS' AND pilote.pilnom != 'JEAN';
 -- Q5 Afficher les avions de capacité supérieure à 250 localisés à PARIS
-
+SELECT * FROM avion WHERE avcap > 250 AND lower(avloc) = 'paris';
 -- Q6 Afficher les avions de capacité supérieure à 250 ou localisés à PARIS
-
+SELECT * FROM avion WHERE avcap > 250 OR lower(avloc) = 'paris';
 -- Q7 Pour chaque pilote en service, afficher le nom du pilote, l'adresse du pilote et le numéro de l'avion piloté. Trier par nom de pilote.
-
+SELECT pilnom, piladr, pilno FROM pilote ORDER BY pilnom;
 -- Q8 Afficher les noms des pilotes qui pilotent un avion au départ de PARIS.
-
+SELECT pilnom FROM pilote JOIN vol ON pilote.pilno = vol.pilno WHERE lower(voldep) = 'paris';
 -- Q9 Afficher les noms des pilotes qui pilotent un AIRBUS.
-
+SELECT pilnom FROM pilote JOIN vol ON pilote.pilno = vol.pilno JOIN avion ON vol.avno = avion.avno WHERE lower(avnom) = 'airbus';
 -- Q10 Afficher la liste des vols triés par nom de pilote croissant et par nom d'avion croissant.
-
+SELECT vol.*, pilote.pilnom, avion.avnom FROM vol JOIN pilote ON vol.pilno = pilote.pilno JOIN avion ON avion.avno = vol.avno ORDER BY pilnom, avnom;
 -- Q11 Afficher le nombre de vols qui partent de Paris
-
+SELECT count(*) FROM vol WHERE lower(voldep) = 'paris';
 -- Q12 Afficher le nom des pilotes qui sont affectés à un vol à partir de la ville où ils habitent
-
+SELECT DISTINCT pilnom FROM pilote JOIN vol ON piladr = vol.voldep;
 -- Q13 Quel pilote a le salaire le plus élevé
+SELECT * FROM pilote WHERE pilsal = (SELECT max(pilsal) FROM pilote);
+SELECT * FROM pilote ORDER BY pilsal DESC LIMIT 1;
 
+SELECT max(pilsal) FROM pilote;
 -- Q14 Quel est le salaire moyen des pilotes affectés à un vol au départ de Paris
-
+SELECT round(avg(pilsal),2), count(*) FROM pilote JOIN vol ON pilote.pilno = vol.pilno WHERE lower(vol.voldep) = 'paris';
+-- SELECT round(avg(pilsal),2), count(*) FROM pilote JOIN vol ON pilote.pilno = vol.pilno GROUP BY lower(vol.voldep) = 'paris';
 -- Q15 Quel est le salaire moyen des pilotes habitant à Paris et ayant déjà volé sur un AIRBUS
-
+SELECT DISTINCT avg(pilsal) FROM pilote JOIN vol ON pilote.pilno = vol.pilno JOIN avion ON vol.avno = avion.avno WHERE lower(pilote.piladr) = 'paris' AND lower(avion.avnom) LIKE 'airbu%';
 -- Q16 Afficher pour chaque pilote son nom et le nombre de vols auxquels il est affecté. Trier le résultat du pilote ayant le plus d'affectation à celui en ayant le moins.
-
+SELECT pilote.pilnom, count(vol.*) FROM pilote JOIN vol ON pilote.pilno = vol.pilno GROUP BY pilote.pilnom ORDER BY count(vol.*) DESC;
 -- Q17 Combien d'avion BOEING ou AIRBUS sont localisés à Paris
 
 -- Q18 Quelle est la capacité moyenne des avions par modèle
