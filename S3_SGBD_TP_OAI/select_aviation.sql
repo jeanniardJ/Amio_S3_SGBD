@@ -37,17 +37,17 @@ SELECT DISTINCT avg(pilsal) FROM pilote JOIN vol ON pilote.pilno = vol.pilno JOI
 -- Q16 Afficher pour chaque pilote son nom et le nombre de vols auxquels il est affecté. Trier le résultat du pilote ayant le plus d'affectation à celui en ayant le moins.
 SELECT pilote.pilnom, count(vol.*) FROM pilote JOIN vol ON pilote.pilno = vol.pilno GROUP BY pilote.pilnom ORDER BY count(vol.*) DESC;
 -- Q17 Combien d'avion BOEING ou AIRBUS sont localisés à Paris
-
+SELECT count(*) FROM avion WHERE (lower(avnom) LIKE 'boei%' OR lower(avnom) LIKE 'airbu%') AND lower(avloc) = 'paris';
 -- Q18 Quelle est la capacité moyenne des avions par modèle
-
+SELECT round(avg(avcap),2), avnom FROM avion GROUP BY avnom;
 -- Q19 afficher les vols qui sont des aller-retours (vol de ville A vers ville B et Vol de ville B vers ville A)
-
--- Q20 afficher le nombre de vols affectés à des avions localisé dans la ville d'origine
-
+SELECT * FROM vol as volall JOIN vol as volrts ON  volall.volarr = volrts.voldep AND volrts.volarr = volall.voldep;
+-- Q20 afficher le nombre de vols affectés à des avions localisé dans la ville d'origine ?
+SELECT count(vol.*) FROM vol JOIN avion ON vol.avno = avion.avno AND avion.avloc IN (vol.voldep, vol.volarr);
 -- Q21 Afficher le nombre d'avions localisés par ville
-
+SELECT count(*), avloc FROM avion GROUP BY avloc;
 -- Q22 Quel est le salaire maximum des pilote par ville d'habitation
-
+SELECT max(pilsal), piladr FROM pilote GROUP BY piladr;
 -- Q23 Quel est le pilote ayant le salaire maximum par ville d'habitation
 
 -- Q24 existe-t-il au moins 2 vols au départ de marseille, afficher "OUI" ou "NON" 
