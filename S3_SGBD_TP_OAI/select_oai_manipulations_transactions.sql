@@ -2,6 +2,13 @@
 -- Q1 - Insérer un nouvel employé dans le département 10
 start TRANSACTION;
 INSERT INTO emp (empno, ename, sal, job, comm, hiredate, mgr, deptno) VALUES (7154, 'LOL', 2350, 'CLERK', NULL, '1952-02-03', 7902, 10);
+
+INSERT INTO emp VALUES (7164, 'TITI', 4654, 'CLERK', NULL, NOW(), 7902, 10);
+INSERT INTO emp VALUES (5646, 'TOTO', 1200, 'ANALYST', NULL, NOW(), 7902, 10);
+UPDATE EMP
+SET SAL = SAL * 2 ;
+
+
 COMMIT;
 ROLLBACK;
 -- 2026-11-25 11:29:38 [ INFO] Executing: INSERT into emp (empno, ename, sal, job, comm, hiredate, mgr, deptno) values (7154, 'LOL', 2350, 'CLERK', NULL, '1952-02-03', 7902, 10)
