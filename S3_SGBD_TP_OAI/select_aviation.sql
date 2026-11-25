@@ -94,3 +94,7 @@ SELECT voldep as ville FROM vol UNION SELECT volarr FROM vol UNION SELECT piladr
 SELECT DISTINCT pilote.* FROM pilote JOIN vol ON pilote.pilno = vol.pilno WHERE voldep IN('PARIS', 'BRUXELLE');
 -- Q32 Lister tous les pilotes qui ont été déjà affecté à un vol qui est parti de PARIS et aussi à un vol à partir de BRUXELLE
 SELECT * FROM pilote WHERE pilno IN (SELECT DISTINCT p2.pilno as pilno FROM pilote p2 JOIN vol ON p2.pilno = vol.pilno WHERE voldep = 'PARIS') AND pilno IN (SELECT DISTINCT p2.pilno as pilno FROM pilote p2 JOIN vol ON p2.pilno = vol.pilno WHERE voldep = 'BRUXELLE');
+
+SELECT * FROM pilote JOIN vol vParis ON pilote.pilno = vParis.pilno JOIN vol vBruxelle ON pilote.pilno = vBruxelle.pilno WHERE vParis.voldep = 'PARIS' AND vBruxelle.voldep = 'BRUXELLE';
+
+SELECT * FROM pilote JOIN vol vParis ON pilote.pilno = vParis.pilno AND vParis.voldep = 'PARIS' JOIN vol vBruxelle ON pilote.pilno = vBruxelle.pilno AND vBruxelle.voldep = 'BRUXELLE';
