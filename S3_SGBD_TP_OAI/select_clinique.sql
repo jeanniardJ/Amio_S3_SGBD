@@ -6,25 +6,41 @@ SELECT clinique.nom FROM clinique JOIN service ON clinique.numeroclinique = serv
 -- c) Donner le nom des cliniques des villes de plus de 200 000 habitants du département de l'hérault, qui ont plus de 100 lits.
 SELECT * FROM clinique JOIN ville ON clinique.idville = ville.idville WHERE ville.nombrehabitants > 200000 AND ville.departement = '34' AND clinique.nombrelits > 100;
 -- d) Donner pour chaque ville, le nom de la clinique qui a le plus grand nombre de lits.
-SELECT ville.ville, clinique.nom, max(clinique.nombrelits) FROM clinique JOIN VILLE ON clinique.idville = ville.idville GROUP BY ville.idville;
+SELECT clinique.nom, max(clinique.nombrelits) FROM clinique GROUP BY clinique.idville, clinique.nom;
+SELECT clinique.nom FROM clinique WHERE clinique.nombrelits IN (SELECT MAX(clinique.nombrelits) FROM clinique GROUP BY clinique.idville);
 -- e) Donner le nom des cliniques qui disposent des spécialités 1 et/ou 6.
-
+SELECT DISTINCT clinique.nom FROM clinique 
+JOIN service ON clinique.numeroclinique = service.numeroclinique 
+WHERE service.numerospecialite IN (1,6);
 -- f) Donner le nom des cliniques qui disposent à la fois des spécialités 1, 6 et 7.
-
+SELECT clinique.nom FROM clinique 
+JOIN service ON clinique.numeroclinique = service.numeroclinique 
+WHERE service.numerospecialite = 1 AND service.numerospecialite = 6 AND service.numerospecialite = 7;
 -- g) Donner pour chaque département le nom de la spécialité la plus représentée.
-
+-- Il faut recuperer le libelle de la spécialité qui est le plus representer par departement (count le nombre de fois que la spe apparais est resortir l'id)  "ville qui comporte dept" -> "clinique qui est dans une ville" -> "Spe qui est dans une clinique"
+SELECT ville.departement, max(service.numerospecialite) FROM clinique
+JOIN ville ON clinique.idville = ville.idville
+JOIN service ON clinique.numeroclinique = service.numeroclinique
+JOIN specialite ON service.numerospecialite = specialite.numerospecialite
+GROUP BY ville.departement;
 -- h) Donner le nom des villes dans lesquelles il n’y a pas de clinique.
-
+SELECT ville.ville FROM ville LEFT JOIN clinique ON clinique.idville = ville.idville WHERE clinique.idville IS NULL;
 -- i) Ajouter dans la bdd la ville de Perpignan car on va référencer des cliniques dans cette ville
+INSERT INTO ville VALUES (10, 'Perpignan','66', 121616);
+-- j) Créer la clinique "La Catalane" située à Perpignan spécalisée en "Cardiologie" et "Pneumologie", 100 lits
 
--- j) Créer la clinique "La Catalane" située à Perpignan spécalisée en "Cardiologie" et "Pneumologie"
+INSERT INTO clinique VALUES (9, 'La Catalane', 100, 10);
+INSERT INTO service VALUES 
+((SELECT numeroclinique FROM clinique WHERE nom = 'La Catalane'), (SELECT numerospecialite FROM specialite WHERE libelle = 'Cardiologie')),
+((SELECT numeroclinique FROM clinique WHERE nom = 'La Catalane'), (SELECT numerospecialite FROM specialite WHERE libelle = 'Pneumologie'));
 
 -- k) La clinique des Oliviers (numéro:4) a ouvert un service de "Chirurgie esthétique". Enregistrer cette nouvelle situation
-
+INSERT INTO specialite VALUES (11, 'Chirurgie esthétique');
+INSERT INTO service VALUES (11, 4);
 -- l) "La clinique du parc" vient de changer de nom elle s'appelle désormais "La clinique de la pinède". Enregistrer cette nouvelle situation
-
+UPDATE clinique SET nom = 'La clinique de la pinède' WHERE clinique.nom = 'La clinique du parc';
 -- m) la "Clinique Claude Bernard" ferme, elle doit être retirée de la Bdd. Les spécialités qu'elle avait sont transférées à la "clinique du Larzac" (sauf celles qui y existaient déjà). Enregistrer cette nouvelle situation
-
+DELETE 
 -- n) Les cliniques de l'Aveyron doublent leur nombre de lits. Enregistrer cette nouvelle situation
 
 -- o) Le service Maternité de la "Clinique du soleil" ferme. Enregistrer cette nouvelle situation.
