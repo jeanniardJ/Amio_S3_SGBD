@@ -1,3 +1,4 @@
+-- Active: 1794902618134@@127.0.0.1@5432@OAI
 -- Parmi les requêtes proposées ci-dessous, certaines testent les contraintes d’intégrité mises en place dans la base de données et devraient  retourner une erreur à l’exécution. Si tel est le cas, vous relèverez le message et expliquerez la cause de l’erreur.
 -- Q1 - Insérer un nouvel employé dans le département 10
 start TRANSACTION;
@@ -26,10 +27,13 @@ ROLLBACK;
 
 -- Q4 - Supprimer le département 10
 start TRANSACTION;
+BEGIN;
 DELETE FROM dept WHERE deptno = 10;
 -- [ERROR] update or delete on table "dept" violates foreign key constraint "emp_deptno_fk" on table "emp"
 ROLLBACK;
 
+TRUNCATE TABLE emp;
+ROLLBACK;
 -- Bonus : vous aurez besoin de sous-requêtes pour résoudre ces problèmes.
 -- Q5 - Affecter l’employé dont le nom est BLAKE au département dont le nom RESEARCH
 -- Q6 - Augmenter de 100€ les salariés qui gagnent le minimum
